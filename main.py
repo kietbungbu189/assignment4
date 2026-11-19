@@ -21,6 +21,9 @@ from src.transform import options
 from src.analytics import restock
 from src.optimize import optimize
 
+#Which materials are likely to run short, which vendor can cover the gap,...
+# and how much cash and extra stock would that order create?
+
 def main():
     print(f"Printing the first 5 rows of {RAW_CSV}")
 

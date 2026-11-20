@@ -1,5 +1,5 @@
 import pandas as pd
 
-
-def read_fact_csv(path):
-    return pd.read_csv(path)
+def extract_csv(csv_path):
+    a = pd.read_csv(csv_path)
+    return a

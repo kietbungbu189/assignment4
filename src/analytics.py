@@ -5,8 +5,8 @@ import math
 
 def aggregate_total(df):
     all_dates = []
-    for column in df[:,2:]:
-        a = {colum: df[:,column].sum()}
+    for column in df[:,4:]:
+        a[column] = {colum: df[:,column].sum()}
         all_dates.append(a)
     return all_dates
     

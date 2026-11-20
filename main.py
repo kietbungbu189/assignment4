@@ -131,6 +131,9 @@ def main():
     if material_restock.empty:
         print("No purchase required under this scenario.")
     else:
+        material_budget = float(
+            input("Enter the material purchasing budget in VND: ")
+        )
         material_offers = material_offers.loc[material_offers["SKU"].isin(material_restock["SKU"])].copy()
 
         # Practice assumptions—not confirmed supplier terms.
@@ -155,10 +158,6 @@ def main():
         material_offers["Max capacity"] = (
             material_offers["Max capacity"]
             .fillna(affordable_quantity)
-        )
-        
-        material_budget = float(
-            input("Enter the material purchasing budget in VND: ")
         )
 
         material_result = optimize(

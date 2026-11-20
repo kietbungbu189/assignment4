@@ -23,7 +23,6 @@ from src.optimize import optimize
 from src.config import MATERIAL_AUGUST, MATERIAL_OCTOBER
 from src.extract import extract_materials
 from src.analytics import check_material_balance
-from src.config import MATERIAL_OFFERS
 
 #Which materials are likely to run short, which vendor can cover the gap,...
 # and how much cash and extra stock would that order create?
@@ -86,141 +85,14 @@ def main():
     
     log_analysis(merge2, total, low_stock)
 
-# Select October's Glyxin record.
-    material_to_order = matched_balance_main.loc[
-        (matched_balance_main["month"] == "oct 2026")
-        & (matched_balance_main["Material name"] == "Glyxin")
-    ].copy()
+    options_to_choose = options(products, suppliers, logistics)
+    print(options_to_choose.head())
 
-# Give this material a stable identifier for supplier matching.
-    material_to_order["SKU"] = "GLYXIN"
+    rstk = restock(low_20, 'Stock levels')
+    print(rstk.head()) 
 
-# Practice assumption:
-# Next month's usage equals October's issued quantity.
-# No safety stock or incoming orders included.
-    material_to_order["Quantity to order"] = (
-        material_to_order["Issued quantity"]
-        - material_to_order["Closing quantity"]
-    ).clip(lower=0)
-
-    material_restock = material_to_order.loc[
-        material_to_order["Quantity to order"] > 0,
-        ["SKU", "Quantity to order"],
-    ]
-    print(material_restock)
-
-    material_offers = read_fact_csv(MATERIAL_OFFERS)
-
-#This uses the same set difference concept you practised when validating table relationships    
-    missing_offers = (
-        set(material_restock["SKU"])
-        - set(material_offers["SKU"])
-    )
-    if missing_offers:
-        raise ValueError(f"No supplier offers for: {missing_offers}")
-
-#    options_to_choose = options(products, suppliers, logistics)
-#    print(options_to_choose.head())
-
-#    rstk = restock(low_20, 'Stock levels')
-#    print(rstk.head()) 
-
-#    optiz = optimize(options_to_choose, rstk, budget=10000)
-#    print(optiz)
-
-    if material_restock.empty:
-        print("No purchase required under this scenario.")
-    else:
-        material_budget = float(
-            input("Enter the material purchasing budget in VND: ")
-        )
-        material_offers = material_offers.loc[material_offers["SKU"].isin(material_restock["SKU"])].copy()
-
-        # Practice assumptions—not confirmed supplier terms.
-        material_offers["Shipping cost"] = (
-            material_offers["Shipping cost"].fillna(0)
-        )
-
-        material_offers["Holding cost"] = (
-            material_offers["Holding cost"].fillna(0)
-        )
-
-        material_offers["Minimum order quantity"] = (
-            material_offers["Minimum order quantity"].fillna(0)
-        )
-
-        # For missing maximums, use the most the budget could buy.
-        affordable_quantity = (
-            material_budget
-            // material_offers["Per-unit purchase cost"]
-        )
-
-        material_offers["Max capacity"] = (
-            material_offers["Max capacity"]
-            .fillna(affordable_quantity)
-        )
-
-        material_result = optimize(
-            material_offers,
-            material_restock,
-            budget=material_budget,
-        )
-
-# What-if scenario:
-# Assume repeat retail orders are allowed.
-# Assume the retail maximum applies to each order.
-# Compare purchase prices only, before fees.
-
-# 1. Get Glyxin's requirement from the pipeline.
-        required_quantity = material_restock.loc[material_restock["SKU"] == "GLYXIN","Quantity to order"].item()
-
-# 2. Get Glyxin's retail quote.
-        retail_offer = material_offers.loc[(material_offers["SKU"] == "GLYXIN") & (material_offers["Offer tier"] == "Retail")]
-
-        retail_limit_per_order = retail_offer["Max capacity"].item()
-        retail_price = retail_offer["Per-unit purchase cost"].item()
-
-# 3. Calculate how many retail orders would be needed.
-        full_orders = int(required_quantity // retail_limit_per_order)
-        last_order_quantity = required_quantity % retail_limit_per_order
-
-        number_of_orders = full_orders
-        if last_order_quantity > 0:
-            number_of_orders += 1
-
-        retail_purchase_cost = required_quantity * retail_price
-
-# 4. Get Glyxin's selected purchases from the solver.
-        selected_orders = material_result.loc[(material_result["SKU"] == "GLYXIN") & (material_result["Optimized order"] > 0)]
-
-        solver_quantity = selected_orders["Optimized order"].sum()
-
-        solver_purchase_cost = (selected_orders["Optimized order"] * selected_orders["Per-unit purchase cost"]).sum()
-
-# 5. Compare both scenarios.
-        cash_difference = solver_purchase_cost - retail_purchase_cost
-        solver_excess = solver_quantity - required_quantity
-
-        print("\nGLYXIN: PURCHASE SCENARIO COMPARISON")
-        print("Repeated retail orders are an assumption, not confirmed vendor terms.")
-        print(f"Additional quantity required: {required_quantity:,.0f} kg")
-
-        print("\nCurrent solver plan:")
-        print(f"Purchase quantity: {solver_quantity:,.0f} kg")
-        print(f"Purchase cost before fees: {solver_purchase_cost:,.0f} VND")
-        print(f"Stock beyond requirement: {solver_excess:,.0f} kg")
-
-        print("\nRepeated-retail scenario:")
-        print(f"{full_orders} orders of {retail_limit_per_order:,.0f} kg")
-        if last_order_quantity > 0:
-            print(f"1 additional order of {last_order_quantity:,.0f} kg")
-        print(f"Total number of orders: {number_of_orders}")
-        print(f"Purchase cost before fees: {retail_purchase_cost:,.0f} VND")
-        print(f"Cash reduction versus solver plan: {cash_difference:,.0f} VND")
-
-        print(material_result.loc[
-            material_result["Optimized order"] > 0
-        ])
+    optiz = optimize(options_to_choose, rstk, budget=10000)
+    print(optiz)
 
 if __name__ == "__main__":
     main()

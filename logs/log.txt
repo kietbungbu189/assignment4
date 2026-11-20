@@ -173,39 +173,3 @@ Records analysed: 100
 Total recorded revenue: 577604.8187380086
 Number of low stock products: 27
 
-
-analysis logged: 03:20:35 AM  Fri Nov-20-2026
-Records analysed: 100
-Total recorded revenue: 577604.8187380086
-Number of low stock products: 27
-
-
-analysis logged: 03:26:24 AM  Fri Nov-20-2026
-Records analysed: 100
-Total recorded revenue: 577604.8187380086
-Number of low stock products: 27
-
-
-analysis logged: 03:29:24 AM  Fri Nov-20-2026
-Records analysed: 100
-Total recorded revenue: 577604.8187380086
-Number of low stock products: 27
-
-
-analysis logged: 03:30:18 AM  Fri Nov-20-2026
-Records analysed: 100
-Total recorded revenue: 577604.8187380086
-Number of low stock products: 27
-
-
-analysis logged: 03:31:17 AM  Fri Nov-20-2026
-Records analysed: 100
-Total recorded revenue: 577604.8187380086
-Number of low stock products: 27
-
-
-analysis logged: 03:42:12 AM  Fri Nov-20-2026
-Records analysed: 100
-Total recorded revenue: 577604.8187380086
-Number of low stock products: 27
-

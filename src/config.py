@@ -1,6 +1,6 @@
 from pathlib import Path
 
-ROOT = Path(__File__).Resolve().parent.parent
-CSV_D = ROOT / "data" / "raw" / "deaths_global.csv"
-CSV_C = ROOT / "data" / "raw" / "cases_global.csv"
-FILE_OR_ADDRESS = 
+ROOT = Path(__file__).resolve().parent.parent
+CSV_D = ROOT / "data" / "raw" / "COVID19" / "deaths_global.csv"
+CSV_C = ROOT / "data" / "raw" / "COVID19" / "cases_global.csv"
+TARGET_FILEORADDRESS = "https://alphavantage.co"

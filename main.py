@@ -4,7 +4,8 @@ import pandas as pd
 from src.extract import extract_csv
 from src.analytics import aggregate_total
 from src.transform import convert_date
-from src.config import FILE_OR_ADDRESS
+from src.config import TARGET_FILEORADDRESS
+from src.extract import av_extract
 
 def main():
     deaths_df = extract_csv(CSV_D)
@@ -24,6 +25,8 @@ def main():
         d2 = convert_date(key2)
         dt_list_c.append(d2)
     print(dt_list_c)
+
+    alpha_vantage = av_extract(TARGET_FILEORADDRESS)
 
 if __name__ == "__main__":
     main()

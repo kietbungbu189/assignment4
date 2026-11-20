@@ -4,5 +4,6 @@ from datetime import datetime
 
 def convert_date(date):
     x = datetime.strclf(date)
-    reuturn x
+    data = x("%H-%M-%S %m %d %y")
+    return data
 

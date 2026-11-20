@@ -23,6 +23,7 @@ from src.optimize import optimize
 from src.config import MATERIAL_AUGUST, MATERIAL_OCTOBER
 from src.extract import extract_materials
 from src.analytics import check_material_balance
+from src.config import MATERIAL_OFFERS
 
 #Which materials are likely to run short, which vendor can cover the gap,...
 # and how much cash and extra stock would that order create?
@@ -84,6 +85,31 @@ def main():
     print(low_20.head())
     
     log_analysis(merge2, total, low_stock)
+
+# Select October's Glyxin record.
+    material_to_order = matched_balance_main.loc[
+        (matched_balance_main["month"] == "oct 2026")
+        & (matched_balance_main["Material name"] == "Glyxin")
+    ].copy()
+
+# Give this material a stable identifier for supplier matching.
+    material_to_order["SKU"] = "GLYXIN"
+
+# Practice assumption:
+# Next month's usage equals October's issued quantity.
+# No safety stock or incoming orders included.
+    material_to_order["Quantity to order"] = (
+        material_to_order["Issued quantity"]
+        - material_to_order["Closing quantity"]
+    ).clip(lower=0)
+
+    material_restock = material_to_order.loc[
+        material_to_order["Quantity to order"] > 0,
+        ["SKU", "Quantity to order"],
+    ]
+    print(material_restock)
+
+    material_offers = read_fact_csv(MATERIAL_OFFERS)
 
     options_to_choose = options(products, suppliers, logistics)
     print(options_to_choose.head())

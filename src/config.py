@@ -10,3 +10,6 @@ MATERIAL_AUGUST = (
 MATERIAL_OCTOBER = (
     PROJECT_ROOT / "data" / "raw" / "materials" / "october_2026.xlsx"
 )
+MATERIAL_OFFERS = (
+    PROJECT_ROOT / "data" / "raw" / "materials" / "supplier_offers.csv"
+)

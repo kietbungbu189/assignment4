@@ -1,5 +1,6 @@
 import pandas as pd
 import requests
+from src.config import ALPHA_VANTAGE_API_KEY
 
 def extract_csv(csv_path):
     a = pd.read_csv(csv_path)
@@ -9,7 +10,7 @@ def av_extract(api):
     search_parameters = {
         "function": "TIME_SERIES_DAILY",
         "symbol": "AAPL",
-        "apikey": "AQBXLQR83N391L55"
+        "apikey": ALPHA_VANTAGE_API_KEY
     }
     response_or_file = requests.get(api, params=search_parameters)
     line_or_data = response_or_file.text()

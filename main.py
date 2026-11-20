@@ -166,6 +166,58 @@ def main():
             budget=material_budget,
         )
 
+# What-if scenario:
+# Assume repeat retail orders are allowed.
+# Assume the retail maximum applies to each order.
+# Compare purchase prices only, before fees.
+
+# 1. Get Glyxin's requirement from the pipeline.
+        required_quantity = material_restock.loc[material_restock["SKU"] == "GLYXIN","Quantity to order"].item()
+
+# 2. Get Glyxin's retail quote.
+        retail_offer = material_offers.loc[(material_offers["SKU"] == "GLYXIN") & (material_offers["Offer tier"] == "Retail")]
+
+        retail_limit_per_order = retail_offer["Max capacity"].item()
+        retail_price = retail_offer["Per-unit purchase cost"].item()
+
+# 3. Calculate how many retail orders would be needed.
+        full_orders = int(required_quantity // retail_limit_per_order)
+        last_order_quantity = required_quantity % retail_limit_per_order
+
+        number_of_orders = full_orders
+        if last_order_quantity > 0:
+            number_of_orders += 1
+
+        retail_purchase_cost = required_quantity * retail_price
+
+# 4. Get Glyxin's selected purchases from the solver.
+        selected_orders = material_result.loc[(material_result["SKU"] == "GLYXIN") & (material_result["Optimized order"] > 0)]
+
+        solver_quantity = selected_orders["Optimized order"].sum()
+
+        solver_purchase_cost = (selected_orders["Optimized order"] * selected_orders["Per-unit purchase cost"]).sum()
+
+# 5. Compare both scenarios.
+        cash_difference = solver_purchase_cost - retail_purchase_cost
+        solver_excess = solver_quantity - required_quantity
+
+        print("\nGLYXIN: PURCHASE SCENARIO COMPARISON")
+        print("Repeated retail orders are an assumption, not confirmed vendor terms.")
+        print(f"Additional quantity required: {required_quantity:,.0f} kg")
+
+        print("\nCurrent solver plan:")
+        print(f"Purchase quantity: {solver_quantity:,.0f} kg")
+        print(f"Purchase cost before fees: {solver_purchase_cost:,.0f} VND")
+        print(f"Stock beyond requirement: {solver_excess:,.0f} kg")
+
+        print("\nRepeated-retail scenario:")
+        print(f"{full_orders} orders of {retail_limit_per_order:,.0f} kg")
+        if last_order_quantity > 0:
+            print(f"1 additional order of {last_order_quantity:,.0f} kg")
+        print(f"Total number of orders: {number_of_orders}")
+        print(f"Purchase cost before fees: {retail_purchase_cost:,.0f} VND")
+        print(f"Cash reduction versus solver plan: {cash_difference:,.0f} VND")
+
         print(material_result.loc[
             material_result["Optimized order"] > 0
         ])

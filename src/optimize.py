@@ -86,7 +86,14 @@ def optimize(dim_supplier_withSKU, restock_table, budget):
         to_minimize_prob += min_to_order*user_supply_switches[index] <= order_qty_choices[index]     
     
 #P6
-    to_minimize_prob.solve()
+#    to_minimize_prob.solve()
+#    status = pulp.LpStatus[to_minimize_prob.status]
+    solve_result = to_minimize_prob.solve()
+    if solve_result.status != pulp.constants.LpSolveStatus.Optimal:
+        raise ValueError(
+            f"No optimal purchasing plan. "
+            f"Solver status: {solve_result.status.name}"
+        )
     rsult = {}
     for index2, value2 in order_qty_choices.items():
         rsult[index2] = value2.varValue

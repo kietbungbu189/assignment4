@@ -119,8 +119,8 @@ def main():
     if missing_offers:
         raise ValueError(f"No supplier offers for: {missing_offers}")
 
-    options_to_choose = options(products, suppliers, logistics)
-    print(options_to_choose.head())
+#    options_to_choose = options(products, suppliers, logistics)
+#    print(options_to_choose.head())
 
 #    rstk = restock(low_20, 'Stock levels')
 #    print(rstk.head()) 
@@ -144,6 +144,34 @@ def main():
         print(material_result.loc[
             material_result["Optimized order"] > 0
         ])
+
+                material_offers = material_offers.loc[
+            material_offers["SKU"].isin(material_restock["SKU"])
+        ].copy()
+
+        # Practice assumptions—not confirmed supplier terms.
+        material_offers["Shipping cost"] = (
+            material_offers["Shipping cost"].fillna(0)
+        )
+
+        material_offers["Holding cost"] = (
+            material_offers["Holding cost"].fillna(0)
+        )
+
+        material_offers["Minimum order quantity"] = (
+            material_offers["Minimum order quantity"].fillna(0)
+        )
+
+        # For missing maximums, use the most the budget could buy.
+        affordable_quantity = (
+            material_budget
+            // material_offers["Per-unit purchase cost"]
+        )
+
+        material_offers["Max capacity"] = (
+            material_offers["Max capacity"]
+            .fillna(affordable_quantity)
+        )
 
 if __name__ == "__main__":
     main()

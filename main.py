@@ -111,14 +111,39 @@ def main():
 
     material_offers = read_fact_csv(MATERIAL_OFFERS)
 
+#This uses the same set difference concept you practised when validating table relationships    
+    missing_offers = (
+        set(material_restock["SKU"])
+        - set(material_offers["SKU"])
+    )
+    if missing_offers:
+        raise ValueError(f"No supplier offers for: {missing_offers}")
+
     options_to_choose = options(products, suppliers, logistics)
     print(options_to_choose.head())
 
-    rstk = restock(low_20, 'Stock levels')
-    print(rstk.head()) 
+#    rstk = restock(low_20, 'Stock levels')
+#    print(rstk.head()) 
 
-    optiz = optimize(options_to_choose, rstk, budget=10000)
-    print(optiz)
+#    optiz = optimize(options_to_choose, rstk, budget=10000)
+#    print(optiz)
+
+    if material_restock.empty:
+        print("No purchase required under this scenario.")
+    else:
+        material_budget = float(
+            input("Enter the material purchasing budget in VND: ")
+        )
+
+        material_result = optimize(
+            material_offers,
+            material_restock,
+            budget=material_budget,
+        )
+
+        print(material_result.loc[
+            material_result["Optimized order"] > 0
+        ])
 
 if __name__ == "__main__":
     main()

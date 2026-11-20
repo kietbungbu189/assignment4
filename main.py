@@ -20,6 +20,9 @@ from src.analytics import below_20_stock
 from src.transform import options
 from src.analytics import restock
 from src.optimize import optimize
+from src.config import MATERIAL_AUGUST, MATERIAL_OCTOBER
+from src.extract import extract_materials
+from src.analytics import check_material_balance
 
 #Which materials are likely to run short, which vendor can cover the gap,...
 # and how much cash and extra stock would that order create?
@@ -46,6 +49,11 @@ def main():
     merge1 = attach_keys(raw, suppliers, ['Supplier name', 'Location'])
     merge2 = attach_keys(merge1, logistics, ['Shipping carriers', 'Transportation modes', 'Routes'])
     merge2 = merge2.drop(columns=['Supplier name', 'Location', 'Shipping carriers', 'Transportation modes', 'Routes', 'Product type', 'Price'])
+
+    unified_monthly_main = extract_materials(MATERIAL_AUGUST, MATERIAL_OCTOBER)
+    print(unified_monthly_main.head())
+
+    matched_balance_main = check_material_balance(unified_monthly_main)
 
     create_db(products, logistics, suppliers, merge2)
     

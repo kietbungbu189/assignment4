@@ -132,4 +132,33 @@ def restock(below_20, quantity_column, restock_to=50):
     below_20_copy['Quantity to order'] = below_20_copy[quantity_column].apply(lambda x: restock_to-x)
     return below_20_copy[['SKU', 'Quantity to order']]
 
+def check_material_balance(unified_monthly):
+#3.5 check if open, received, issued and closing quantity balance
+#3.5.1 target the numeric data (to perform vector addition/subtract)
+    columns_to_check = ['Opening quantity', 'Received quantity', 'Issued quantity', 'Closing quantity']
+    df_cols = unified_monthly[columns_to_check]
+    df_cols = df_cols.to_numpy()
+    df_cols = df_cols.astype(float)
+    finite = np.isfinite(df_cols)
+    finite_across = finite.all(axis=1)
+    sliced_finite_df = unified_monthly[finite_across]
+
+#3.5.2 perform vector addition
+    sliced_finite_df['Variance'] = sliced_finite_df['Opening quantity'] + sliced_finite_df['Received quantity'] - sliced_finite_df['Issued quantity'] - sliced_finite_df['Closing quantity']
+    print(sliced_finite_df['Variance'].head())
+    sliced_finite_df['Expected closing'] = sliced_finite_df['Opening quantity'] + sliced_finite_df['Received quantity'] - sliced_finite_df['Issued quantity']
+    print(sliced_finite_df['Expected closing'].head())
+
+#3.5.3 identify the 0's in stocks' sliced_finitedf['Variance'] using vectorize boolean
+    required_variance = 0
+    matched_balance = sliced_finite_df[sliced_finite_df['Variance'] == required_variance]
+
+#3.5.4 percentage of unmatched balance material records
+    unmatched_balance = sliced_finite_df[sliced_finite_df['Variance'] != required_variance]
+    unmatched_percentage = len(unmatched_balance)/len(sliced_finite_df)
+    print(f"Percentage of unmatched balance: {unmatched_percentage}")
+    print(f"Percentage of zero-issue stock: {1-unmatched_percentage}")
+
+    return matched_balance
+
 

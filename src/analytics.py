@@ -3,6 +3,7 @@ import functools
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+import mplfinance as mpf
 
 def aggregate_total(df):
 #if...
@@ -15,7 +16,7 @@ def aggregate_total(df):
         all_dates[column] = df[column].sum()
     return pd.Series(all_dates)
 
-def graph(df, line_dir, line_dir2, hist_dir, scatter_dir, bar_dir):
+def graph(df, line_dir, line_dir2, hist_dir, scatter_dir, bar_dir, candle_dir):
     plt.clf()
     line_grh = df.plot(kind="line", y=["High", "Low"], x ="Date", figsize=(12, 8))
     plt.yscale("log")
@@ -68,3 +69,7 @@ def graph(df, line_dir, line_dir2, hist_dir, scatter_dir, bar_dir):
     average_move = df_stockpricemove.groupby(df["Phase"], observed=True).agg("mean")
     average_move.plot(kind="bar", y="Date", figsize=(12, 8))
     plt.savefig(bar_dir)
+
+    plt.clf()
+    candles = df[["Date", "Open", "High", "Low", "Close"]].copy()
+    mplfinance.plot(kind="candle")

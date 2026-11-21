@@ -25,6 +25,7 @@ from src.config import LINE_FIG2
 from src.config import HIST_FIG
 from src.config import SCATTER_FIG
 from src.config import BAR_FIG
+from src.config import CANDLE_FIG
 
 def main():
     deaths_df = extract_csv(CSV_D)
@@ -139,7 +140,7 @@ def main():
 #    with open(CSV, mode="a") as dt:
     df.to_csv(CSV, index_label="index")
 
-    graph(df, LINE_FIG, LINE_FIG2, HIST_FIG, SCATTER_FIG, BAR_FIG)
+    graph(df, LINE_FIG, LINE_FIG2, HIST_FIG, SCATTER_FIG, BAR_FIG, CANDLE_FIG)
 
     log(LOG_DIR)
 

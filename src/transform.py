@@ -11,7 +11,7 @@ def convert_date(date):
 def flatten_data(json_data):
     selected_columns = ['day', 'open', 'high', 'low', 'close', 'volume']
     df_json = pd.DataFrame(columns=selected_columns) 
-    for key, column in df_json.iterrows(): 
+    for key, column in df_json.items(): 
         df_json["day"] = json_data["Time Series (Daily)"].key[1] 
         df_json["open"] = json_data["Time Series (Daily)"][key]["open"]
 

@@ -15,13 +15,15 @@ def main():
     tot_c = aggregate_total(cases_df)
 
     dt_list_d = []
-    for key, value in enumerate(tot_d):
+##because all_dates is dict so change enumerate() (for list)...
+#... to .items() for dict
+    for key, value in tot_d.items():
         d = convert_date(key)
         dt_list.append(d)
-    print(dt_list)
+    print(dt_list_d)
 
-    dt_list_c
-    for key2, value2 in enumerate(tot_c):
+    dt_list_c = []
+    for key2, value2 in tot_c.items():
         d2 = convert_date(key2)
         dt_list_c.append(d2)
     print(dt_list_c)

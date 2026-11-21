@@ -4,6 +4,9 @@ import numpy as np
 import math
 
 def aggregate_total(df):
+#if...
+#    all_dates = []    
+#... then use enumerate() in main()
     all_dates = {}
 #this works too:
 #    for column in df.columns[4:]    

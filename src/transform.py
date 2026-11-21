@@ -20,7 +20,7 @@ def flatten_data(json_data):
 #... support indexing
 #        close_price = metrics["4. close"]
 #        set(restock_dict)        
-        df_json['day'] = dates_list[key] 
+        df_json['day'] = enumerate(dates_list)
         df_json['open'] = metrics[key]["1. open"]
         df_json['high'] = metrics[key]["1. high"]
         df_json['low'] = metrics[key]["1. low"]

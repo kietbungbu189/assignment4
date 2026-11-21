@@ -17,11 +17,11 @@ def flatten_data(json_data):
 #.keys() returns a dict_keys view object, which does not...
 #... support indexing
 #        close_price = metrics["4. close"]        
-        df_json['day'] = metrics2 = metrics[key]         
-        df_json['open'] = metrics2["1. open"]
-        df_json['high'] = metrics2["1. high"]
-        df_json['low'] = metrics2["1. low"]
-        df_json['close'] = metrics2["1. close"]
-        df_json['volume'] = metrics2["1. volume"]
+        df_json['day'] = metrics[column] 
+        df_json['open'] = metrics[key]["1. open"]
+        df_json['high'] = metrics[key]["1. high"]
+        df_json['low'] = metrics[key]["1. low"]
+        df_json['close'] = metrics[key]["1. close"]
+        df_json['volume'] = metrics[key]["1. volume"]
 
 

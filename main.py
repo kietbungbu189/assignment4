@@ -24,6 +24,7 @@ from src.analytics import graph
 from src.config import LINE_FIG2
 from src.config import HIST_FIG
 from src.config import SCATTER_FIG
+from src.config import BAR_FIG
 
 def main():
     deaths_df = extract_csv(CSV_D)

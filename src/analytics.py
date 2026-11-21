@@ -2,7 +2,7 @@ import pandas as pd
 import functools
 import numpy as np
 import math
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 def aggregate_total(df):
 #if...
@@ -16,6 +16,9 @@ def aggregate_total(df):
     return pd.Series(all_dates)
 
 def graph(df, line_dir):
+    plt.clf()
     line_grh = df.plot(kind="line", y="Deaths", x ="Date", figsize=(12, 8))
+    line_grh2 = df.plot(kind="line", y="Cases", x ="Date", figsize=(12, 8))
+    plt.yscale("log")
     plt.savefig(line_dir)
     

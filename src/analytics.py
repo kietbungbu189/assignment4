@@ -15,11 +15,11 @@ def aggregate_total(df):
         all_dates[column] = df[column].sum()
     return pd.Series(all_dates)
 
-def graph(df, line_dir, line_dir2):
+def graph(df, line_dir, line_dir2, hist_dir):
     plt.clf()
     line_grh = df.plot(kind="line", y=["High", "Low"], x ="Date", figsize=(12, 8))
     plt.yscale("log")
-    plt.title("Apple (AAPL) stock price high and low overtime")
+    plt.title("Apple (AAPL) stock prices high and low overtime")
     plt.savefig(line_dir)
 
 #Dual-plot to show stock price more clear
@@ -50,3 +50,8 @@ def graph(df, line_dir, line_dir2):
 
 
     plt.savefig(line_dir2)
+
+    plt.clf()
+    df_dailychanges = df["High"]-df["Low"]
+    df_dailychanges.plot(kind="hist", y="Date", figsize=(12, 8), bins=10)
+    plt.savefig(hist_dir)

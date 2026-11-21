@@ -12,11 +12,9 @@ def av_extract(api):
         "symbol": "AAPL",
         "apikey": ALPHA_VANTAGE_API_KEY
     }
-    api_key=search_parameters[apikey]
-    symbol=search_parameters[symbol]
     response_or_file = requests.get(api, params=search_parameters)
 #.text is an attribute
-    line_or_data = response_or_file.text
+    line_or_data = response_or_file.json()
 #.status_code is an attribute
     if response_or_file.status_code == 200:
         pass

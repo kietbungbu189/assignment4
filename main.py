@@ -9,6 +9,7 @@ from src.extract import av_extract
 from src.log import log
 from src.config import LOG
 from src.config import TEST_PRINT
+import json
 
 def main():
     deaths_df = extract_csv(CSV_D)
@@ -42,8 +43,10 @@ def main():
     
     alpha_vantage = av_extract(TARGET_FILEORADDRESS)
 
-#    with open(TEST_PRINT, mode="a") as ts:
+    with open(TEST_PRINT, mode="a") as ts:
 #        ts.write(alpha_vantage)
+#pass indent=4 to format the data for human eye
+        json.dump(alpha_vantage, ts, indent=4)
 
     log(LOG)
 

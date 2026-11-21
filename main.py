@@ -15,8 +15,9 @@ def main():
     tot_c = aggregate_total(cases_df)
 
     dt_list_d = []
-##because all_dates is dict so change enumerate() (for list)...
-#... to .items() for dict
+#because all_dates is dict inside aggregate_total() so change...
+#... enumerate() (for list) to .items() for dict (or Series...
+#... when it's converted at "return"
     for key, value in tot_d.items():
         d = convert_date(key)
         dt_list.append(d)

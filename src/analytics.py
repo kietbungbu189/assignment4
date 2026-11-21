@@ -17,8 +17,7 @@ def aggregate_total(df):
 
 def graph(df, line_dir):
     plt.clf()
-    line_grh = df.plot(kind="line", y="Deaths", x ="Date", figsize=(12, 8))
-    line_grh2 = df.plot(kind="line", y="Cases", x ="Date", figsize=(12, 8))
+    line_grh = df.plot(kind="line", y=["Deaths", "Cases", "High", "Low"], x ="Date", figsize=(12, 8))
     plt.yscale("log")
     plt.savefig(line_dir)
     

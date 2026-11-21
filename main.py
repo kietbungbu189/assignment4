@@ -8,6 +8,7 @@ from src.config import TARGET_FILEORADDRESS
 from src.extract import av_extract
 from src.log import log
 from src.config import LOG
+from src.config import TEST_PRINT
 
 def main():
     deaths_df = extract_csv(CSV_D)
@@ -38,7 +39,11 @@ def main():
     a_dataframe_that_aggregates = a_dataframe_that_aggregates.rename(columns={0: "Deaths", 1: "Cases"})
     print(a_dataframe_that_aggregates.head())
 
+    
     alpha_vantage = av_extract(TARGET_FILEORADDRESS)
+
+#    with open(TEST_PRINT, mode="a") as ts:
+#        ts.write(alpha_vantage)
 
     log(LOG)
 

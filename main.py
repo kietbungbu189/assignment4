@@ -7,10 +7,12 @@ from src.transform import convert_date
 from src.config import TARGET_FILEORADDRESS
 from src.extract import av_extract
 from src.log import log
-from src.config import LOG
+from src.config import LOG_DIR
 from src.config import TEST_PRINT
 import json
 from src.transform import flatten_data
+#stock used = AAPL
+from src.config import TEST_PRINT2
 
 def main():
     deaths_df = extract_csv(CSV_D)
@@ -51,8 +53,10 @@ def main():
 
     flat = flatten_data(alpha_vantage)
     print(flat.head())
+    with open (TEST_PRINT2, mode="a") as ts2:
+        flat.to_csv()
 
-    log(LOG)
+    log(LOG_DIR)
 
 if __name__ == "__main__":
     main()

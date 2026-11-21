@@ -1,6 +1,6 @@
 from datetime import datetime
 #1 Record when an analysis occurs
-from src.config import LOG
+from src.config import LOG_DIR
 
 def log(log_dir):
     log_time = datetime.now()

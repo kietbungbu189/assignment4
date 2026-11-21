@@ -10,6 +10,7 @@ from src.log import log
 from src.config import LOG
 from src.config import TEST_PRINT
 import json
+from src.transform import flatten_data
 
 def main():
     deaths_df = extract_csv(CSV_D)
@@ -47,6 +48,9 @@ def main():
 #        ts.write(alpha_vantage)
 #pass indent=4 to format the data for human eye
         json.dump(alpha_vantage, ts, indent=4)
+
+    flat = flatten_data(alpha_vantage)
+    print(flat.head())
 
     log(LOG)
 

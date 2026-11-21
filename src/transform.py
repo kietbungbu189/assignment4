@@ -33,4 +33,5 @@ def flatten_data(json_data):
 #
 #        df_data3 = pd.DataFrame(columns)
     df_json1 = pd.DataFrame(dict_list)
+    return df_json1
 

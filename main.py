@@ -70,8 +70,10 @@ def main():
     end_idx = (len(a_dataframe_that_aggregates.iloc[:,0])-1)
 # By Column and Row - HP of a Plymouth Satellite
 #    df.iloc[2,3] or df.loc[[1], ['name']]
-    start = a_dataframe_that_aggregates.iloc[[start_idx], [0]]
-    end = a_dataframe_that_aggregates.iloc[[end_idx], [0]]
+#In your dataframe, the dates are still the row index, and...
+#... df.iloc[:, 0] is the Deaths column.
+    start = a_dataframe_that_aggregates.iloc[start_idx].index
+    end = a_dataframe_that_aggregates.iloc[end_idx].index
 #(start / end): YYYY-MM-DD strings or datetime...
 #... objects (start is inclusive, end is exclusive)
     AAPL_stk = yf.download(TICKER, start, end)

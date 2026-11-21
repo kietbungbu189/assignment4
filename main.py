@@ -11,8 +11,12 @@ from src.config import LOG_DIR
 from src.config import TEST_PRINT
 import json
 from src.transform import flatten_data
-#stock used = AAPL
+#stock used = AAPL, yahoo finance is used instead of Alp Advtg...
+#... , legacy code of requests commented out
 from src.config import TEST_PRINT2
+import yfinance as yf
+from src.config import TEST_PRINT3
+from src.config import TICKER
 
 def main():
     deaths_df = extract_csv(CSV_D)
@@ -40,11 +44,16 @@ def main():
 
 #.T to transpose from rows into columns
     a_dataframe_that_aggregates = pd.DataFrame([dt_dict_d, dt_dict_c]).T
-    a_dataframe_that_aggregates = a_dataframe_that_aggregates.rename(columns={0: "Deaths", 1: "Cases"})
+#the header (or promoted row 0 in csv) becomes...
+#... "index" column, then row[0] becomes "0" and...
+#... row[1] becomes "1"    
+    a_dataframe_that_aggregates = a_dataframe_that_aggregates.rename(columns={"index": "date", 0: "Deaths", 1: "Cases"})
     print(a_dataframe_that_aggregates.head())
 
+    with open(TEST_PRINT3, mode="a") as ts3:
+        a_dataframe_that_aggregates.to_csv(ts3)
     
-    alpha_vantage = av_extract(TARGET_FILEORADDRESS)
+    alpha_vantage = av_extract(TARGET_FILEORADDRESS, TICKER)
 
     with open(TEST_PRINT, mode="a") as ts:
 #        ts.write(alpha_vantage)
@@ -54,7 +63,18 @@ def main():
     flat = flatten_data(alpha_vantage)
     print(flat.head())
     with open (TEST_PRINT2, mode="a") as ts2:
-        flat.to_csv()
+        flat.to_csv(ts2)
+
+#Method 1
+    start_idx = 2
+    end_idx = (len(a_dataframe_that_aggregates.iloc[:,0])-1)
+# By Column and Row - HP of a Plymouth Satellite
+#    df.iloc[2,3] or df.loc[[1], ['name']]
+    start = a_dataframe_that_aggregates.iloc[[start_idx], [0]]
+    end = a_dataframe_that_aggregates.iloc[[end_idx], [0]]
+#(start / end): YYYY-MM-DD strings or datetime...
+#... objects (start is inclusive, end is exclusive)
+    AAPL_stk = yf.download(TICKER, (start/end))
 
     log(LOG_DIR)
 

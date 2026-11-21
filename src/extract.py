@@ -6,10 +6,10 @@ def extract_csv(csv_path):
     a = pd.read_csv(csv_path)
     return a
 
-def av_extract(api):
+def av_extract(api, ticker):
     search_parameters = {
         "function": "TIME_SERIES_DAILY",
-        "symbol": "AAPL",
+        "symbol": ticker,
         "apikey": ALPHA_VANTAGE_API_KEY
     }
     response_or_file = requests.get(api, params=search_parameters)

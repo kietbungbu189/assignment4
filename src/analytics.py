@@ -15,7 +15,7 @@ def aggregate_total(df):
         all_dates[column] = df[column].sum()
     return pd.Series(all_dates)
 
-def graph(df, line_dir, line_dir2, hist_dir):
+def graph(df, line_dir, line_dir2, hist_dir, scatter_dir):
     plt.clf()
     line_grh = df.plot(kind="line", y=["High", "Low"], x ="Date", figsize=(12, 8))
     plt.yscale("log")
@@ -55,3 +55,7 @@ def graph(df, line_dir, line_dir2, hist_dir):
     df_dailychanges = df["High"]-df["Low"]
     df_dailychanges.plot(kind="hist", y="Date", figsize=(12, 8), bins=10)
     plt.savefig(hist_dir)
+
+    plt.clf()
+    df.plot(kind="scatter", y="Close", x=["Deaths", "Cases"]figsize=(12, 8), bins=10)
+    plt.savefig(scatter_dir)

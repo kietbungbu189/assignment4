@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 from src.analytics import graph
 from src.config import LINE_FIG2
 from src.config import HIST_FIG
+from src.config import SCATTER_FIG
 
 def main():
     deaths_df = extract_csv(CSV_D)
@@ -137,7 +138,7 @@ def main():
 #    with open(CSV, mode="a") as dt:
     df.to_csv(CSV, index_label="index")
 
-    graph(df, LINE_FIG, LINE_FIG2, HIST_FIG)
+    graph(df, LINE_FIG, LINE_FIG2, HIST_FIG, SCATTER_FIG)
 
     log(LOG_DIR)
 

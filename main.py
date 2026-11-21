@@ -65,15 +65,16 @@ def main():
     with open (TEST_PRINT2, mode="a") as ts2:
         flat.to_csv(ts2)
 
-#Method 1
-    start_idx = 2
-    end_idx = (len(a_dataframe_that_aggregates.iloc[:,0])-1)
+    start_idx = 0
+    end_idx = len(a_dataframe_that_aggregates)
 # By Column and Row - HP of a Plymouth Satellite
 #    df.iloc[2,3] or df.loc[[1], ['name']]
 #In your dataframe, the dates are still the row index, and...
-#... df.iloc[:, 0] is the Deaths column.
-    start = a_dataframe_that_aggregates.iloc[start_idx].index
-    end = a_dataframe_that_aggregates.iloc[end_idx].index
+#... df.iloc[:, 0] is the Deaths column. Calling .index...
+#retrieves the index of the whole row ([0]) instead of...
+#... the name of the index 
+    start = a_dataframe_that_aggregates.iloc[start_idx].name
+    end = a_dataframe_that_aggregates.iloc[end_idx].name
 #(start / end): YYYY-MM-DD strings or datetime...
 #... objects (start is inclusive, end is exclusive)
     AAPL_stk = yf.download(TICKER, start, end)

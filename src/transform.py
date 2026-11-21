@@ -18,10 +18,10 @@ def flatten_data(json_data):
 #... support indexing
 #        close_price = metrics["4. close"]        
         df_json['day'] = key
-        df_json['open'] = metrics[key]["1. open"]
-        df_json['high'] = metrics[key]["1. high"]
-        df_json['low'] = metrics[key]["1. low"]
-        df_json['close'] = metrics[key]["1. close"]
-        df_json['volume'] = metrics[key]["1. volume"]
+        df_json['open'] = column["1. open"]
+        df_json['high'] = column["1. high"]
+        df_json['low'] = column["1. low"]
+        df_json['close'] = column["1. close"]
+        df_json['volume'] = column["1. volume"]
 
 

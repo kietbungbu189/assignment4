@@ -132,8 +132,8 @@ def main():
     df = covid_vs_stk.copy()    
 
 #this is inside to_csv(): index_label="index    
-    with open(CSV, mode="a") as dt:
-        df.to_csv(dt, index_label="index")
+#    with open(CSV, mode="a") as dt:
+    df.to_csv(dt, index_label="index")
 
     graph(df, LINE_FIG)
 

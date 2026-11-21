@@ -16,6 +16,6 @@ def aggregate_total(df):
     return pd.Series(all_dates)
 
 def graph(df, line_dir):
-    line_grh = df.plot(kind="line", y="Deaths", figsize=(12, 8))
+    line_grh = df.plot(kind="line", y="Deaths", x ="Date", figsize=(12, 8))
     plt.savefig(line_dir)
     

@@ -72,4 +72,4 @@ def graph(df, line_dir, line_dir2, hist_dir, scatter_dir, bar_dir, candle_dir):
 
     plt.clf()
     candles = df[["Date", "Open", "High", "Low", "Close"]].copy()
-    mplfinance.plot(kind="candle")
+    mpf.plot(type="candle")

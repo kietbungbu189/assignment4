@@ -72,5 +72,6 @@ def graph(df, line_dir, line_dir2, hist_dir, scatter_dir, bar_dir, candle_dir):
 
     plt.clf()
     df_candles = df[["Date", "Open", "High", "Low", "Close"]].copy()
+    df_candles - df_candles.set_index("Date")
     mpf.plot(df_candles, type="candle")
     plt.savefig(candle_dir)

@@ -17,6 +17,7 @@ from src.config import TEST_PRINT2
 import yfinance as yf
 from src.config import TEST_PRINT3
 from src.config import TICKER
+from src.config import CSV
 
 def main():
     deaths_df = extract_csv(CSV_D)
@@ -66,7 +67,7 @@ def main():
         flat.to_csv(ts2)
 
     start_idx = 0
-    end_idx = len(a_dataframe_that_aggregates)
+    end_idx = (len(a_dataframe_that_aggregates.iloc[:,0])-1)
 # By Column and Row - HP of a Plymouth Satellite
 #    df.iloc[2,3] or df.loc[[1], ['name']]
 #In your dataframe, the dates are still the row index, and...
@@ -77,7 +78,25 @@ def main():
     end = a_dataframe_that_aggregates.iloc[end_idx].name
 #(start / end): YYYY-MM-DD strings or datetime...
 #... objects (start is inclusive, end is exclusive)
+#    end = end+1
+    end = end + pd.Timedelta(days=1)
     AAPL_stk = yf.download(TICKER, start, end)
+
+#    selected_orders = selected_orders.merge(
+#        material_restock[["SKU", "Quantity to order"]],
+#        on="SKU",
+#        how="left",
+#        validate="many_to_one"
+#    )
+    covid_vs_stk = AAPL_stk.merge(
+        a_dataframe_that_aggregates[["Deaths", "Cases"]],
+        on="Date",
+        how="left",
+        validate="one_to_one"
+    )
+
+#    with open(CSV, mode="a") as dt:
+#        AAPL_stk.to_csv(dt)
 
     log(LOG_DIR)
 

@@ -18,6 +18,9 @@ import yfinance as yf
 from src.config import TEST_PRINT3
 from src.config import TICKER
 from src.config import CSV
+from src.config import LINE_FIG
+import matplotlib as plt
+from src.analytics import graph
 
 def main():
     deaths_df = extract_csv(CSV_D)
@@ -126,9 +129,13 @@ def main():
     else:
         pass
 
+    df = covid_vs_stk.copy()    
+
 #this is inside to_csv(): index_label="index    
     with open(CSV, mode="a") as dt:
-        covid_vs_stk.to_csv(dt, index_label="index")
+        df.to_csv(dt, index_label="index")
+
+    graph(df, LINE_FIG)
 
     log(LOG_DIR)
 

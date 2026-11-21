@@ -20,7 +20,7 @@ def main():
 #... when it's converted at "return"
     for key, value in tot_d.items():
         d = convert_date(key)
-        dt_list.append(d)
+        dt_list_d.append(d)
     print(dt_list_d)
 
     dt_list_c = []

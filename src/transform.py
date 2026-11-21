@@ -5,7 +5,6 @@ from datetime import datetime
 def convert_date(date):
 #use strptime (date type -> text) instead of strftime (text...
 #... -> date type)
-    x = datetime.strptime(date)
-    data = x("%H-%M-%S %m %d %y")
-    return data
+    x = datetime.strptime(date, "%m/%d/%y")
+    return x
 

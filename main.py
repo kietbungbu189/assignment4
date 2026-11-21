@@ -74,7 +74,7 @@ def main():
     end = a_dataframe_that_aggregates.iloc[[end_idx], [0]]
 #(start / end): YYYY-MM-DD strings or datetime...
 #... objects (start is inclusive, end is exclusive)
-    AAPL_stk = yf.download(TICKER, (start/end))
+    AAPL_stk = yf.download(TICKER, start, end)
 
     log(LOG_DIR)
 

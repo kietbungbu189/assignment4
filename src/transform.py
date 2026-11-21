@@ -13,9 +13,8 @@ def flatten_data(json_data):
     df_json = pd.DataFrame(columns=selected_columns)
     metrics = json_data["Time Series (Daily)"]
 #This uses the same idea as COVID-19 dictionaries
-    dates = set(metrics)
 #    my_list = list(my_set)
-    dates_list = list(dates)
+    dates_list = list(metrics)
     for key, column in metrics.items(): 
 #.keys() returns a dict_keys view object, which does not...
 #... support indexing

@@ -92,14 +92,14 @@ def main():
 #keep level 0 of the AAPL_stk:
     AAPL_stk.columns = AAPL_stk.columns.get_level_values(0)
 #move the existing index into a column:
-    AAPL_stk.reset_index()
+    AAPL_stk = AAPL_stk.reset_index()
 #give every row the same "ticker" value:
     AAPL_stk["ticker"] = TICKER
 #name the index column "Date" and move it into a column:
-    covid = a_dataframe_that_aggregates.rename_axis("Date").reset_index()
+    a_dataframe_that_aggregates = a_dataframe_that_aggregates.rename_axis("Date").reset_index()
 
     covid_vs_stk = AAPL_stk.merge(
-        a_dataframe_that_aggregates[["Deaths", "Cases"]],
+        a_dataframe_that_aggregates,
         on="Date",
         how="left",
         validate="one_to_one"

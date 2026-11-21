@@ -139,7 +139,7 @@ def main():
 #    with open(CSV, mode="a") as dt:
     df.to_csv(CSV, index_label="index")
 
-    graph(df, LINE_FIG, LINE_FIG2, HIST_FIG, SCATTER_FIG)
+    graph(df, LINE_FIG, LINE_FIG2, HIST_FIG, SCATTER_FIG, BAR_FIG)
 
     log(LOG_DIR)
 

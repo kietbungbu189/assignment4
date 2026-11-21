@@ -57,7 +57,8 @@ def graph(df, line_dir, line_dir2, hist_dir, scatter_dir, bar_dir):
     plt.savefig(hist_dir)
 
     plt.clf()
-    df.plot(kind="scatter", y="Close", x=["Deaths", "Cases"], figsize=(12, 8))
+    df.plot(kind="scatter", y="Close", x="Deaths", figsize=(12, 8))
+    df.plot(kind="scatter", y="Close", x="Cases", figsize=(12, 8))
     plt.savefig(scatter_dir)
 
     plt.clf()

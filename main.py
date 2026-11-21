@@ -47,7 +47,10 @@ def main():
     a_dataframe_that_aggregates = pd.DataFrame([dt_dict_d, dt_dict_c]).T
 #the header (or promoted row 0 in csv) becomes...
 #... "index" column, then row[0] becomes "0" and...
-#... row[1] becomes "1"    
+#... row[1] becomes "1"
+#At this point, the dates already exist as row labels. The...
+#... only columns are 0 and 1, so pandas skips "index" by...
+#... default and still renames 0 to Deaths and 1 to Cases    
     a_dataframe_that_aggregates = a_dataframe_that_aggregates.rename(columns={"index": "date", 0: "Deaths", 1: "Cases"})
     print(a_dataframe_that_aggregates.head())
 
@@ -92,6 +95,11 @@ def main():
 #keep level 0 of the AAPL_stk:
     AAPL_stk.columns = AAPL_stk.columns.get_level_values(0)
 #move the existing index into a column:
+#the old header "ticker" row wasn't moved, it was...
+#... deleted (line 96). Then a new column named...
+#... AAPL_stk["ticker"] was created (line 103) and generalized all...
+#... rows as TICKER = "AAPL" on the assumption that the only...
+#... ticker the data under is AAPL
     AAPL_stk = AAPL_stk.reset_index()
 #give every row the same "ticker" value:
     AAPL_stk["ticker"] = TICKER
@@ -105,8 +113,10 @@ def main():
         validate="one_to_one"
     )
 
-#    with open(CSV, mode="a") as dt:
-#        AAPL_stk.to_csv(dt)
+    covid_vs_stk = covid_vs_stk.rename(columns={"Column 1": "index"})
+
+    with open(CSV, mode="a") as dt:
+        covid_vs_stk.to_csv(dt)
 
     log(LOG_DIR)
 

@@ -84,6 +84,10 @@ def main():
 #    end = end+1
     end = end + pd.Timedelta(days=1)
     AAPL_stk = yf.download(TICKER, start, end)
+    if AAPL_stk.empty:
+        raise ValueError(f"No {TICKER} price returned")
+    else:
+        pass
 
 #    selected_orders = selected_orders.merge(
 #        material_restock[["SKU", "Quantity to order"]],
@@ -113,8 +117,18 @@ def main():
         validate="one_to_one"
     )
 
-    with open(CSV, mode="a", index_label="index") as dt:
-        covid_vs_stk.to_csv(dt)
+    missing = covid_vs_stk[['Deaths', 'Cases']].isna()
+#missing.empty checks whether the table has zero rows or...
+#... zero columns. A table with 789 complete rows still has...
+#... 789 rows -> use any()    
+    if missing.any().any()==True:
+        raise ValueError("Blank Deaths and Cases attached to stock record")
+    else:
+        pass
+
+#this is inside to_csv(): index_label="index    
+    with open(CSV, mode="a") as dt:
+        covid_vs_stk.to_csv(dt, index_label="index")
 
     log(LOG_DIR)
 

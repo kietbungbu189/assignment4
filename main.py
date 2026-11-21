@@ -6,6 +6,8 @@ from src.analytics import aggregate_total
 from src.transform import convert_date
 from src.config import TARGET_FILEORADDRESS
 from src.extract import av_extract
+from src.log import log
+from src.config import LOG
 
 def main():
     deaths_df = extract_csv(CSV_D)
@@ -30,6 +32,8 @@ def main():
     print(dt_list_c)
 
     alpha_vantage = av_extract(TARGET_FILEORADDRESS)
+
+    log(LOG)
 
 if __name__ == "__main__":
     main()

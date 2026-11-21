@@ -113,9 +113,7 @@ def main():
         validate="one_to_one"
     )
 
-    covid_vs_stk = covid_vs_stk.rename(columns={"Column 1": "index"})
-
-    with open(CSV, mode="a") as dt:
+    with open(CSV, mode="a", index_label="index") as dt:
         covid_vs_stk.to_csv(dt)
 
     log(LOG_DIR)

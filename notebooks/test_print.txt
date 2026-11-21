@@ -19170,4 +19170,6 @@
     }
 }{
     "Information": "We have detected your API key as AQBXLQR83N391L55 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+}{
+    "Information": "We have detected your API key as AQBXLQR83N391L55 and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
 }

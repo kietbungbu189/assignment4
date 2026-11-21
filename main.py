@@ -16,7 +16,7 @@ def main():
     tot_d = aggregate_total(deaths_df)
     tot_c = aggregate_total(cases_df)
 
-    dt_list_d = {}
+    dt_dict_d = {}
 #because all_dates is dict inside aggregate_total() so change...
 #... enumerate() (for list) to .items() for dict (or Series...
 #... when it's converted at "return"
@@ -24,14 +24,18 @@ def main():
         d = convert_date(key)
 #use this instead of dt_list_d.append(d: value) to include...
 #... deaths/cases values with the dates
-        dt_list_d[d] = value
-    print(dt_list_d)
+        dt_dict_d[d] = value
+    print(dt_dict_d)
 
-    dt_list_c = {}
+    dt_dict_c = {}
     for key2, value2 in tot_c.items():
         d2 = convert_date(key2)
-        dt_list_c[d2] = value2
-    print(dt_list_c)
+        dt_dict_c[d2] = value2
+    print(dt_dict_c)
+
+#.T to transpose from rows into columns
+    a_dataframe_that_aggregates = pd.DataFrame([dt_dict_d, dt_dict_c]).T
+    print(a_dataframe_that_aggregates.head())
 
     alpha_vantage = av_extract(TARGET_FILEORADDRESS)
 

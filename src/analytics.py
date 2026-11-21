@@ -63,7 +63,7 @@ def graph(df, line_dir, line_dir2, hist_dir, scatter_dir, bar_dir):
 
     plt.clf()
     df_stockpricemove = (df["Close"]-df["Open"])*100/df["Open"]
-    df["Phase"] = pd.cut(df["Date"], bins = pd.todatetime(["2020-01-01", "2020-04-01", "2022-01-01", "2023-04-01"])), labels = (["Early", "Peak", "Lock-down", "Recovery"]), right=False)
+    df["Phase"] = pd.cut(df["Date"], bins = pd.todatetime(["2020-01-01", "2020-04-01", "2022-01-01", "2023-04-01"]), labels = (["Early", "Peak/Lock-down", "Recovery"]), right=False)
     print(df.groupby("Phase", observed=True))["Date"].aggregate([["Min", "Max", "count"]])
     df_stockpricemove.plot(kind="bar", y="Date", figsize=(12, 8))
     plt.savefig(bar_dir)

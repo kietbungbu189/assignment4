@@ -35,6 +35,7 @@ def main():
 
 #.T to transpose from rows into columns
     a_dataframe_that_aggregates = pd.DataFrame([dt_dict_d, dt_dict_c]).T
+    a_dataframe_that_aggregates = a_dataframe_that_aggregates.rename(columns={0: "Deaths", 1: "Cases"})
     print(a_dataframe_that_aggregates.head())
 
     alpha_vantage = av_extract(TARGET_FILEORADDRESS)
